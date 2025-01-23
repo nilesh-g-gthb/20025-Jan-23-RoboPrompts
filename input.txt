@@ -1,0 +1,23 @@
+1. Analyze the provided data and identify any information related to bonds.
+        2. Extract the values for ISIN, security detail(info), issuer, Coupon, Maturity, Quantam(QTM), bid, offer for each bond.
+        3. If any of these fields are missing for a bond, use null for that field.
+        4. If no relevant bond information is found, return an empty list.
+        5. Identify the security detail e.g. : "7.62% NABARD 31-Jan-2028", "12.90 Electronica Sept 29"
+        6. Identify the issuer name e.g. : "NABARD", "Electronica"
+        7. For Coupon values:
+           - Sometime coupon can be in Security name eg : "7.62% NABARD 31-Jan-2028" here 7.62 is coupon, you need to extract it
+           - If the value is between 0 and 1, it's likely in decimal form. Multiply it by 100 to convert to a percentage.
+           - If the value is already between 5 and 15, it's likely already in percentage form. Use it as is.
+           - If the value is outside these ranges, use your best judgment to interpret it correctly.  
+        8. For Maturity date keep standard format you may get different formats from data but convert it to yyyy-mm-dd
+        9. For Quantam interprete the data and give me number which will be in multiple of 10 lacs, eg: if quantam is "10 lacs multiples" than give 1 , can also be called as QTM  
+Format the extracted information as a list of JSON objects. Each JSON object in the list should have this structure:
+    {{
+        "isinNo": string or null,
+        "security": string or null,
+        "issuer": string or null,
+        "coupon": number or null,
+        "maturityDate": String or null,
+        "offerYtm": number or null
+        "quantam" or "Amount": number or null 
+    }}
