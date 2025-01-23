@@ -83,42 +83,50 @@ class BondDataExtractor:
 
 
 def main():
-    # Allow input data to be provided from a file or terminal
-    print("Enter the input method:")
-    print("1: Input from a file (e.g., input.txt)")
-    print("2: Provide input manually")
-    choice = input("Enter your choice (1 or 2): ").strip()
-
-    if choice == "1":
-        # Read input from a file
-        file_name = input("Enter the file name (e.g., input.txt): ").strip()
-        try:
-            with open(file_name, "r") as f:
-                input_message = f.read()
-        except FileNotFoundError:
-            print(f"Error: File '{file_name}' not found.")
-            return
-    elif choice == "2":
-        # Accept manual input
-        print("Enter the bond details (end input with an empty line):")
-        input_lines = []
-        while True:
-            line = input()
-            if not line.strip():  # Stop on empty input
-                break
-            input_lines.append(line)
-        input_message = "\n".join(input_lines)
-    else:
-        print("Invalid choice. Exiting.")
-        return
-
-    # Initialize bond extractor and process the input
     extractor = BondDataExtractor()
-    extracted_data = extractor.extract_bond_data(input_message)
 
-    # Output the result as JSON
-    print("\nExtracted Bond Data:")
-    print(json.dumps(extracted_data, indent=4))
+    while True:
+        # Allow input data to be provided from a file or terminal
+        print("\nEnter the input method:")
+        print("1: Input from a file (e.g., input.txt)")
+        print("2: Provide input manually")
+        print("3: Exit the program")
+        
+        choice = input("Enter your choice (1, 2, or 3): ").strip()
+
+        if choice == "3":
+            print("Exiting the program.")
+            break
+
+        if choice == "1":
+            # Read input from a file
+            file_name = input("Enter the file name (e.g., input.txt): ").strip()
+            try:
+                with open(file_name, "r") as f:
+                    input_message = f.read()
+            except FileNotFoundError:
+                print(f"Error: File '{file_name}' not found.")
+                continue
+        elif choice == "2":
+            # Accept manual input
+            print("Enter the bond details (end input with an empty line):")
+            input_lines = []
+            while True:
+                line = input()
+                if not line.strip():  # Stop on empty input
+                    break
+                input_lines.append(line)
+            input_message = "\n".join(input_lines)
+        else:
+            print("Invalid choice. Please try again.")
+            continue
+
+        # Process the input
+        extracted_data = extractor.extract_bond_data(input_message)
+
+        # Output the result as JSON
+        print("\nExtracted Bond Data:")
+        print(json.dumps(extracted_data, indent=4))
 
 
 if __name__ == "__main__":
